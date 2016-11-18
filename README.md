@@ -11,28 +11,33 @@ JavaScript does not support operator overloading out of the box. This is an atte
 When JavaScript applies arethmetic opperations on objects it actually applies it to the result of a call to object.valueOf(). We can pass the objects to a global variable when valueOf() is called, but we get no direct information about which operations where applied directly. 
 This script works is by returning numbers from the valueOf() function in a way so that the operations can be deduced from the final result. This is why the final result of a calculation must be passed to a new instance of the given object type.
 
-# Documented minimal example 
+# Minimal example 
 	<script type="text/javascript" src="/static/lib/operator-overloader.js"></script>
 	<script>
 		// Let's define an object that handles coordinate points.
 		function point(x, y){
-			// We can optionally change the maximum amount of terms allowed as such, but calculation chain length correlates to required CPU computation in an exponentially increasing fashion. 
+			// We can optionally change the maximum amount of terms allowed as such, 
+			// but calculation chain length correlates to required CPU computation in an exponentially increasing fashion. 
 			this.max_terms = 7;
 			
 			// Let's save our variables
 			this.x = x;
 			this.y = y;
 			
-			// A way to get the state of our object (completely optional).
+			// A way to get the state of our object (optional of course).
 			self.__defineGetter__( 'str', function(){ return "("+self.x+", "+self.y+")"; } );
 
-			// ValueOf is responsible for returning the magic numbers to the JavaScript engine, which in turn allows us to deduce what operations were done on our objects.
+			// ValueOf is responsible for returning the magic numbers to the JavaScript engine, 
+			// which in turn allows us to deduce what operations were done on our objects.
 			// The three lines below should just be copy pasted as is.
 			this.valueOf = function(){
 				return overload_valueOf(this);
 			}
 			
-			// This functino should be called after all initialization has been done, so put it at the end. It checks if the value passed to this object was in fact the result of previous calculations and if so it overwrites the variables of this object with the result. It returns true if this is actually the result of calculations, or false otherwise. Very CPU intensive, so only call once.
+			// This functino should be called after all initialization has been done, so put it at the end. 
+			// It checks if the value passed to this object was in fact the result of previous calculations and if so it overwrites the variables of this object with the result. 
+			// It returns true if this is actually the result of calculations, or false otherwise. Very CPU intensive, 
+			// so only call once.
 			overload_new_value(this);
 		}
     
