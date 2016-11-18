@@ -2,7 +2,7 @@
 
 # Caveats
 JavaScript does not support operator overloading out of the box. This is an attempt to solve that problem, but there are certain pitfalls you should be aware of before considering this:
- - Calculation results must be passed to a new object, so instead of (p1 + p2 + p3) you have to do new point(p1 + p2 + p3).
+ - Calculation results must be passed to a new object, so instead of (p1 + p2 + p3) you have to do new point(p1 + p2 + p3), (given your user defined object is named "point").
  - Only +, -, * and / are supported, the fifth arithmetic opperator % is not.
  - Coercion to strings (""+p1) and comparisons (p1 == p2) will not work as expected. New functions should be built for these purposes if needed, like (p1.val == p2.val).
  - Finally the computational resources needed to calculate the answer increases quadratically with the number of terms. Therefore only 6 terms is allowed in one calculation per default (althohug you can easily increase this). For longer calculation chains than that, split the calculations up, like: new point(new point(p1 + p2 + p3 + p4 + p5 + p6) + new point(p7 + p8 + p9 + p10 + p11 + p12))
