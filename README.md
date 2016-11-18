@@ -13,75 +13,75 @@ This script works is by returning numbers from the valueOf() function in a way s
 
 ## Minimal example 
 ```
-	// Let's define an object that handles coordinate points.
-	function point(x, y){
-		// We can optionally change the maximum amount of terms allowed as such, 
-		// but calculation chain length correlates to required CPU computation in an exponentially increasing fashion. 
-		this.max_terms = 7;
+// Let's define an object that handles coordinate points.
+function point(x, y){
+	// We can optionally change the maximum amount of terms allowed as such, 
+	// but calculation chain length correlates to required CPU computation in an exponentially increasing fashion. 
+	this.max_terms = 7;
 
-		// Let's save our variables
-		this.x = x;
-		this.y = y;
+	// Let's save our variables
+	this.x = x;
+	this.y = y;
 
-		// A way to get the state of our object (optional of course).
-		self.__defineGetter__( 'str', function(){ return "("+self.x+", "+self.y+")"; } );
+	// A way to get the state of our object (optional of course).
+	self.__defineGetter__( 'str', function(){ return "("+self.x+", "+self.y+")"; } );
 
-		// ValueOf is responsible for returning the magic numbers to the JavaScript engine, 
-		// which in turn allows us to deduce what operations were done on our objects.
-		// The three lines below should just be copy pasted as is.
-		this.valueOf = function(){
-			return overload_valueOf(this);
-		}
-
-		// This functino should be called after all initialization has been done, so put it at the end. 
-		// It checks if the value passed to this object was in fact the result of previous calculations and if so it overwrites the variables of this object with the result. 
-		// It returns true if this is actually the result of calculations, or false otherwise. Very CPU intensive, 
-		// so only call once.
-		overload_new_value(this);
+	// ValueOf is responsible for returning the magic numbers to the JavaScript engine, 
+	// which in turn allows us to deduce what operations were done on our objects.
+	// The three lines below should just be copy pasted as is.
+	this.valueOf = function(){
+		return overload_valueOf(this);
 	}
 
-	// The following four static functions are needed in order to compute +, -, * and /
-	// They all take two object instances and return a new one. 
-	// The names of these functions are hardcoded in the project and should not be changed.
+	// This functino should be called after all initialization has been done, so put it at the end. 
+	// It checks if the value passed to this object was in fact the result of previous calculations and if so it overwrites the variables of this object with the result. 
+	// It returns true if this is actually the result of calculations, or false otherwise. Very CPU intensive, 
+	// so only call once.
+	overload_new_value(this);
+}
 
-	// Addition
-	point.opp_add = function(obj1, obj2){
-		return new point(obj1.x + obj2.x, obj1.y + obj2.y);
-	}
+// The following four static functions are needed in order to compute +, -, * and /
+// They all take two object instances and return a new one. 
+// The names of these functions are hardcoded in the project and should not be changed.
 
-	// Subtraction
-	point.opp_sub = function(obj1, obj2){
-		return new point(obj1.x - obj2.x, obj1.y - obj2.y);
-	}
+// Addition
+point.opp_add = function(obj1, obj2){
+	return new point(obj1.x + obj2.x, obj1.y + obj2.y);
+}
 
-	// Multiplication
-	point.opp_mul = function(obj1, obj2){
-		return new point(obj1.x * obj2.x, obj1.y * obj2.y);
-	}
-	// Division
-	point.opp_div = function(obj1, obj2){
-		return new point(obj1.x / obj2.x, obj1.y / obj2.y);
-	}
+// Subtraction
+point.opp_sub = function(obj1, obj2){
+	return new point(obj1.x - obj2.x, obj1.y - obj2.y);
+}
 
-	// That's it, we are now ready for a computational example.
-	var p1 = new point(1, 2);
-	var p2 = new point(3, 4);
+// Multiplication
+point.opp_mul = function(obj1, obj2){
+	return new point(obj1.x * obj2.x, obj1.y * obj2.y);
+}
+// Division
+point.opp_div = function(obj1, obj2){
+	return new point(obj1.x / obj2.x, obj1.y / obj2.y);
+}
 
-	// Notice we have to "catch" the calculation results inside a new point object.
-	console.log("Addition: ", p1.str + " + " + p2.str + " = " + new point(p1 + p2).str);
+// That's it, we are now ready for a computational example.
+var p1 = new point(1, 2);
+var p2 = new point(3, 4);
 
-	// There is a fifth optional static function used only for supporting negative first terms.
-	point.opp_inv = function(obj1){
-		return new point(-obj1.x, -obj1.y);
-	}
+// Notice we have to "catch" the calculation results inside a new point object.
+console.log("Addition: ", p1.str + " + " + p2.str + " = " + new point(p1 + p2).str);
 
-	console.log("Inversion: ", new point(-p1).str);
+// There is a fifth optional static function used only for supporting negative first terms.
+point.opp_inv = function(obj1){
+	return new point(-obj1.x, -obj1.y);
+}
 
-	// Let's put it all together.
-	var p3 = new point(8, 4);
-	var p4 = new point(3, 7);
-	var p5 = new point(2, 3);
-	var p6 = new point(6, 14);
+console.log("Inversion: ", new point(-p1).str);
 
-	console.log("Inversion and chained crazyness: ", new point(-p1 + p2 * p3 - p4 / p5 / p6).str);
+// Let's put it all together.
+var p3 = new point(8, 4);
+var p4 = new point(3, 7);
+var p5 = new point(2, 3);
+var p6 = new point(6, 14);
+
+console.log("Inversion and chained crazyness: ", new point(-p1 + p2 * p3 - p4 / p5 / p6).str);
 ```
