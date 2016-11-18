@@ -3,9 +3,9 @@ This
 
 	<script type="text/javascript" src="/static/lib/operator-overloader.js"></script>
 	<script>
-    // Lets define an object that handles coordinate points.
-    // Our object MUST be able to be initiated with the first argument alone.
-    // pass arrays or objects if you need more
+		// Lets define an object that handles coordinate points.
+		// Our object MUST be able to be initiated with the first argument alone.
+		// pass arrays or objects if you need more
 		function point(value){
 			
       // This function must be called with the first argument
