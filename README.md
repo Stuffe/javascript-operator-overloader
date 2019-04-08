@@ -1,5 +1,7 @@
 # javascript-operator-overloader
 
+This thing is very inefficient, it was fun making this, but I am not sure you should use it in production code.
+
 ## Caveats
 JavaScript does not support operator overloading out of the box. This is an attempt to solve that problem, but there are certain pitfalls you should be aware of before considering this:
  - Calculation results must be passed to a new object, so instead of (p1 + p2 + p3) you have to do new point(p1 + p2 + p3), (given your user defined object is named "point").
